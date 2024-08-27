@@ -20,8 +20,9 @@ let blogs = [
   { title: " third racer", blogs: "lorem ipsulm third racer" },
 ];
 app.set("view engine", "ejs");
-
+//middleware and static file
 app.use(morgan("dev"));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.get("/add-blog", (req, resp) => {
@@ -41,8 +42,13 @@ app.get("/add-blog", (req, resp) => {
 app.get("/", (req, resp) => {
   resp.redirect("/blogs");
 });
+
+app.get('/blogs/create', (req, res) => {
+  res.render('create', { title: 'Create a new blog' });
+});
 app.get("/blogs", (req, resp) => {
-  Blog.find().sort({createdAt:-1})
+  Blog.find()
+    .sort({ createdAt: -1 })
     .then((result) => {
       resp.render("index", { title: "All Blogs", blogs: result });
     })
@@ -50,6 +56,10 @@ app.get("/blogs", (req, resp) => {
       console.log(err);
     });
 });
+app.post('/blogs',(req,resp)=>{
+const Blog=new Blog(req.body)
+Blog.save().then(result=>{resp.redirect('/blogs')}).catch(err=>{console.log(err)})
+})
 app.get("/about", (req, resp) => {
   resp.render("about");
 });
