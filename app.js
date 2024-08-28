@@ -60,6 +60,12 @@ app.post('/blogs',(req,resp)=>{
 const Blog=new Blog(req.body)
 Blog.save().then(result=>{resp.redirect('/blogs')}).catch(err=>{console.log(err)})
 })
+app.get('/blogs/:id',(req,resp)=>{
+const id=req.params.id
+Blog.findById(id).then(result=>{
+  resp.render('details',{blog:result,title:'Blog Details'})
+}).catch(err=>{console.log(err)})
+})
 app.get("/about", (req, resp) => {
   resp.render("about");
 });
