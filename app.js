@@ -43,8 +43,8 @@ app.get("/", (req, resp) => {
   resp.redirect("/blogs");
 });
 
-app.get('/blogs/create', (req, res) => {
-  res.render('create', { title: 'Create a new blog' });
+app.get("/blogs/create", (req, res) => {
+  res.render("create", { title: "Create a new blog" });
 });
 app.get("/blogs", (req, resp) => {
   Blog.find()
@@ -56,16 +56,41 @@ app.get("/blogs", (req, resp) => {
       console.log(err);
     });
 });
-app.post('/blogs',(req,resp)=>{
-const Blog=new Blog(req.body)
-Blog.save().then(result=>{resp.redirect('/blogs')}).catch(err=>{console.log(err)})
-})
-app.get('/blogs/:id',(req,resp)=>{
-const id=req.params.id
-Blog.findById(id).then(result=>{
-  resp.render('details',{blog:result,title:'Blog Details'})
-}).catch(err=>{console.log(err)})
-})
+app.post("/blogs", (req, resp) => {
+  const Blog = new Blog(req.body);
+  Blog.save()
+    .then((result) => {
+      resp.redirect("/blogs");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get("/blogs/:id", (req, resp) => {
+  const { id } = req.params;
+  Blog.findById(id)
+    .then((result) => {
+      resp.render("partials/details", {
+        blog: result,
+        title: "Blog Details",
+        id,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.delete("blogs/:id", (req, resp) => {
+  const id = req.params.id;
+  Blog.findByIdAndDelete(id)
+    .then((result) => resp.json({ redirect: "/blogs" }))
+    .then((err) => {
+      console.log(err);
+    });
+});
+
 app.get("/about", (req, resp) => {
   resp.render("about");
 });
