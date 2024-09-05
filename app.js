@@ -10,7 +10,7 @@ const app = express();
 
 // connecting database
 const dbURI =
-  "mongodb+srv://gloriaumutoni54:fFF2RWZYkKFP1p6o@cluster0.8k6l5.mongodb.net/blog?retryWrites=true&w=majority&appName=Cluster0";
+  "mongodb+srv://gloriaumutoni54:fFF2RWZYkKFP1p6o@cluster0.8k6l5.mongodb.net/users?retryWrites=true&w=majority&appName=Cluster0";
 mongoose
   .connect(dbURI)
   .then((result) => 
@@ -20,7 +20,7 @@ console.log("going to listen");
       app.listen(3000)
     })
   .catch((err) => err);
-let blogs = [
+const blogs = [
   { title: "luigi", blog: "lorem ipsulm luigi" },
   { title: "mario", blog: "lorem ipsulm mario" },
   { title: " third racer", blogs: "lorem ipsulm third racer" },
