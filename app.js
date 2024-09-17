@@ -57,8 +57,9 @@ app.get("/single-blog", (req, resp) => {
       console.log(err);
     });
 });
-app.use("/blogs", blogRoutes)
-//4040 page
-app.use((req, resp) => {
+app.use((req,resp) => {
+  console.log('-------')
   resp.status(404).render("404");
 });
+app.use("/blogs", blogRoutes)
+//4040 page
